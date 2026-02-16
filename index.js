@@ -6,14 +6,10 @@ class UiCard extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.firstname = this.getAttribute('firstname');
-        this.lastname = this.getAttribute('lastname');
-        this.email = this.getAttribute('email');
-
-       
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue) return;
         console.log('firstname : ', this.firstname);
         console.log('lastname : ', this.lastname);
         console.log('email : ', this.email);
@@ -29,6 +25,7 @@ class UiCard extends HTMLElement {
         this.firstname = this.getAttribute('firstname');
         this.lastname = this.getAttribute('lastname');
         this.email = this.getAttribute('email');
+        const displayName = `${this.firstname} ${this.lastname}`.trim();
 
         this.shadowRoot.innerHTML = `
 
@@ -64,6 +61,17 @@ class UiCard extends HTMLElement {
                     color: #111;
                     font-weight: 600;
                 }
+
+                button.duplicate-btn {
+                    margin-left: 8px;
+                    background: #b4ed15;
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    color: #111;
+                    font-weight: 600;
+                }
             </style>
 
             <div class="card">
@@ -76,15 +84,30 @@ class UiCard extends HTMLElement {
                     <p>Email : <strong>${this.email}</strong></p>
                 </article>
                 <button class="profile-btn">Voir profil</button>
+                <button class="duplicate-btn">Dupliquer</button>
             </div>
         `;
 
         const btn = this.shadowRoot.querySelector('.profile-btn');
         if (btn) {
             btn.addEventListener('click', () => {
-                const nameDetail = this.getAttribute('name') || displayName;
                 this.dispatchEvent(new CustomEvent('userSelected', {
-                    detail: { name: nameDetail },
+                    detail: { name: displayName },
+                    bubbles: true,
+                    composed: true
+                }));
+            });
+        }
+        const dupBtn = this.shadowRoot.querySelector('.duplicate-btn');
+        if (dupBtn){
+            dupBtn.addEventListener('click',()=>{
+                alert('Carte dupliquée : ' + displayName);
+                this.dispatchEvent(new CustomEvent('duplicateCard',{
+                    detail: {
+                        firstname: this.firstname,
+                        lastname: this.lastname,
+                        email: this.email
+                    },
                     bubbles: true,
                     composed: true
                 }));

@@ -19,34 +19,30 @@
             <button>voir profil</button>
         </ui-card>
         <ui-card 
-            firstname="qsdqsd" 
-            lastname="qsdqsd" 
-            email="qsdqsd.danneville@gmail.com">
-            <button>voir profil</button>
+            firstname="jean" 
+            lastname="baran" 
+            email="jean.baran@gmail.com">
         </ui-card>
         <ui-card 
             firstname="q@" 
             lastname="daqsdnneville" 
             email="quentqsdin.danneville@gmail.com">
-            <button>voir profil</button>
         </ui-card>
         <ui-card 
             firstname="quentin" 
             lastname="danneville" 
             email="quentin.danneville@gmail.com">
-            <button>voir profil</button>
         </ui-card>
         <ui-card 
             firstname="quentin" 
             lastname="danneville" 
             email="quentin.danneville@gmail.com">
-            <button>voir profil</button>
         </ui-card>
         <ui-card 
             firstname="quentin" 
             lastname="danneville" 
             email="quentin.danneville@gmail.com">
-            <button>voir profil</button>
+        
         </ui-card>
     </main>
     <!-- On link notre JS -->
@@ -56,6 +52,15 @@
             const name = e.detail && e.detail.name ? e.detail.name : 'inconnu';
             alert('Utilisateur sélectionné : ' + name);
             console.log('userSelected event received:', e.detail);
+        });
+        document.addEventListener('duplicateCard',(e)=> {
+            const card = e.target;
+
+            const clone = card.cloneNode(true);
+
+            card.parentNode.insertBefore(clone, card.nextSibling);
+
+            console.log("carte dupliquer :)",e.detail);
         });
     </script>
 </body>
