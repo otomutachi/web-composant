@@ -10,13 +10,3 @@ main {
     padding: 20px;
     flex-wrap: wrap;
 }
-button.duplicate-btn{
-     margin-left: 8px;
-    background: #b4ed15;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
-    font-weight: 600;
-}

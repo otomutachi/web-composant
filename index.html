@@ -3,7 +3,7 @@
 <head>
     <title>Cours de web components</title>
     <!-- On link notre CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -12,57 +12,15 @@
         <p>Cours de web components</p>
     </header>
     <main>
-        <ui-card 
-            firstname="quentin" 
-            lastname="danneville" 
-            email="quentin.danneville@gmail.com">
-            <button>voir profil</button>
+        <ui-card firstname="quentin" lastname="danneville" email="quentin.danneville@gmail.com" color="green">
         </ui-card>
-        <ui-card 
-            firstname="jean" 
-            lastname="baran" 
-            email="jean.baran@gmail.com">
+        <ui-card firstname="Sophie" lastname="Dupont" email="sophie.dupont@gmail.com" color="red">
         </ui-card>
-        <ui-card 
-            firstname="q@" 
-            lastname="daqsdnneville" 
-            email="quentqsdin.danneville@gmail.com">
-        </ui-card>
-        <ui-card 
-            firstname="quentin" 
-            lastname="danneville" 
-            email="quentin.danneville@gmail.com">
-        </ui-card>
-        <ui-card 
-            firstname="quentin" 
-            lastname="danneville" 
-            email="quentin.danneville@gmail.com">
-        </ui-card>
-        <ui-card 
-            firstname="quentin" 
-            lastname="danneville" 
-            email="quentin.danneville@gmail.com">
-        
+        <ui-card firstname="Jean" lastname="René" email="jean.rené@gmail.com" color="yellow">
         </ui-card>
     </main>
     <!-- On link notre JS -->
     <script src="index.js"></script>
-    <script>
-        document.addEventListener('userSelected', (e) => {
-            const name = e.detail && e.detail.name ? e.detail.name : 'inconnu';
-            alert('Utilisateur sélectionné : ' + name);
-            console.log('userSelected event received:', e.detail);
-        });
-        document.addEventListener('duplicateCard',(e)=> {
-            const card = e.target;
-
-            const clone = card.cloneNode(true);
-
-            card.parentNode.insertBefore(clone, card.nextSibling);
-
-            console.log("carte dupliquer :)",e.detail);
-        });
-    </script>
 </body>
 
 </html>

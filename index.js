@@ -1,42 +1,35 @@
 class UiCard extends HTMLElement {
+
     static get observedAttributes() {
-        return ['firstname', 'lastname', 'email'];
+        return ['firstname', 'lastname', 'email', 'color']
     }
 
     constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue === newValue) return;
-        console.log('firstname : ', this.firstname);
-        console.log('lastname : ', this.lastname);
-        console.log('email : ', this.email);
-        this.render();
+        super()
+        this.attachShadow({ mode: "open" });
     }
 
     connectedCallback() {
-        console.log('Ui card ready');
+        this.render();
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
         this.render();
     }
 
     render() {
-        this.firstname = this.getAttribute('firstname');
-        this.lastname = this.getAttribute('lastname');
-        this.email = this.getAttribute('email');
-        const displayName = `${this.firstname} ${this.lastname}`.trim();
+        const firstname = this.getAttribute("firstname");
+        const lastname = this.getAttribute("lastname");
+        const email = this.getAttribute("email");
+        const color = this.getAttribute("color");
 
         this.shadowRoot.innerHTML = `
-
             <style>
                 :host {
                     width: calc(33.333% - 14px);
-                    display: inline-block;
-                    margin: 6px;
                 }
 
-                .card {
+                div {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -46,74 +39,84 @@ class UiCard extends HTMLElement {
                     border-radius: 20px;
 
                     color: white;
-                    min-width: 220px;
                 }
 
-                img { max-width:100%; border-radius: 8px; }
-
-                button.profile-btn {
-                    margin-top: 12px;
-                    background: #ff8c00;
-                    border: none;
-                    padding: 8px 12px;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    color: #111;
-                    font-weight: 600;
-                }
-
-                button.duplicate-btn {
-                    margin-left: 8px;
-                    background: #b4ed15;
-                    border: none;
-                    padding: 8px 12px;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    color: #111;
-                    font-weight: 600;
+                header {
+                    width:200px;
+                    height:200px;
+                    border-radius:50%;
                 }
             </style>
 
-            <div class="card">
-                <header>
-                    <img src="https://images4.fanpop.com/image/photos/17000000/Anakin-Skywalker-anakin-skywalker-17028586-992-960.jpg" />
+            <div>
+                <header style="background:${color}">
                 </header>
                 <article>
-                    <p>Prénom : <strong>${this.firstname}</strong></p>
-                    <p>Nom : <strong>${this.lastname}</strong></p>
-                    <p>Email : <strong>${this.email}</strong></p>
+                    <p>Prénom : <strong>${firstname}</strong></p>
+                    <p>Nom : <strong>${lastname}</strong></p>
+                    <p>Email : <strong>${email}</strong></p>
+                    <button>Voir le profil</button>
+                    <button id="duplicate">Dupliquer</button>
                 </article>
-                <button class="profile-btn">Voir profil</button>
-                <button class="duplicate-btn">Dupliquer</button>
             </div>
-        `;
+        `
 
-        const btn = this.shadowRoot.querySelector('.profile-btn');
-        if (btn) {
-            btn.addEventListener('click', () => {
-                this.dispatchEvent(new CustomEvent('userSelected', {
-                    detail: { name: displayName },
-                    bubbles: true,
-                    composed: true
-                }));
+        const button = this.shadowRoot.querySelector('button');
+
+        button.addEventListener('click', () => {
+            const event = new CustomEvent("userSelected", {
+                detail: {
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    color: color
+                },
+                bubbles: true
             });
-        }
-        const dupBtn = this.shadowRoot.querySelector('.duplicate-btn');
-        if (dupBtn){
-            dupBtn.addEventListener('click',()=>{
-                alert('Carte dupliquée : ' + displayName);
-                this.dispatchEvent(new CustomEvent('duplicateCard',{
-                    detail: {
-                        firstname: this.firstname,
-                        lastname: this.lastname,
-                        email: this.email
-                    },
-                    bubbles: true,
-                    composed: true
-                }));
-            });
-        }
+
+            this.dispatchEvent(event);
+        });
+
+        const duplicateButton = this.shadowRoot.getElementById('duplicate');
+
+        duplicateButton.addEventListener('click', () => {
+            const duplicateUserEvent = new CustomEvent("duplicateUser", {
+                detail: {
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    color: color
+                },
+                bubbles: true
+            })
+
+            this.dispatchEvent(duplicateUserEvent);
+        })
     }
 }
 
 customElements.define("ui-card", UiCard);
+
+document.addEventListener('userSelected', (event) => {
+})
+
+document.addEventListener('duplicateUser', (event) => {
+    const user = {
+        firstname: event.detail.firstname,
+        lastname: event.detail.lastname,
+        email: event.detail.email,
+        color: event.detail.color
+    }
+
+    const newUICard = document.createElement('ui-card')
+
+    const entries = Object.entries(user);
+
+    entries.forEach(([key, value]) => {
+        newUICard.setAttribute(key, value)
+    })
+
+    const main = document.querySelector('main');
+
+    main.appendChild(newUICard);
+})
