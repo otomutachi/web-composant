@@ -1,0 +1,24 @@
+{
+  "name": "web-composant",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000w\u0000e\u0000b\u0000-\u0000c\u0000o\u0000m\u0000p\u0000o\u0000s\u0000a\u0000n\u0000t\u0000\r\u0000 \u0000\r\u0000 \u0000`\u0000`\u0000`\u0000p\u0000a\u0000r\u0000t\u0000i\u0000e\u0000 \u00001\u0000 \u0000",
+  "homepage": "https://github.com/otomutachi/web-composant#readme",
+  "bugs": {
+    "url": "https://github.com/otomutachi/web-composant/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otomutachi/web-composant.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":"node server/server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
